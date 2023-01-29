@@ -1,57 +1,56 @@
-from flask import Flask
-from flask import request
-#instancia al nombre del proyecto , despues levantamos el servidor
-app= Flask(__name__)
+from flask import Flask, request
 
-#todo decorador lleva associado un metodo y un return
-@app.route("/operasBas",methods=["GET","POST"])
-def operasBas():
-    if request.method=="POST":
-        num1=request.form.get("num1")
-        num2=request.form.get("num2")
-        op=request.form.get("op")
+app = Flask(__name__)
 
-        if(op=="suma"):
-         return "las suma es: {}".format(str(int(num1)+int(num2)))
-        if(op=="resta"):
-         return "la resta es: {}".format(str(int(num1)-int(num2)))
-        if(op=="multiplicacion"):
-         return "la multiplicacion es: {}".format(str(int(num1)*int(num2)))
-       
-       
+@app.route("/operaciones_basicas", methods=["GET","POST"])
+def operaciones_basicas():
+    resultado = None
+    numero_1=""
+    numero_2=""
+    if request.method == "POST":
+        numero_1 = request.form.get("numero_1")
+        numero_2 = request.form.get("numero_2")
+        operacion = request.form.get("operacion")
 
-    else:
-        return '''
-        <form action="/operasBas" method="POST">
-        <label> N1: </label>
-        <input type="text" name="num1" /> </br>
-        <label> N2: </label>
-        <input type="text" name="num2" /> </br>
-        
-        
+        if operacion == "suma":
+            resultado = int(numero_1) + int(numero_2)
+        elif operacion == "resta":
+            resultado = int(numero_1) - int(numero_2)
+        elif operacion == "multiplicacion":
+            resultado = int(numero_1) * int(numero_2)
+        elif operacion == "division":
+            if int(numero_2) != 0:
+                resultado = int(numero_1) / int(numero_2)
+            else:
+                resultado = "No se puede dividir entre cero"
+    return '''
+    <h1>Operaciones Básicas</h1>
+    <form method="post">
+        <label> Número 1: </label>
+        <input type="text" name="numero_1" value='{}'/> </br>
+        <label> Número 2: </label>
+        <input type="text" name="numero_2" value='{}'/> </br>
+        <div>
+            <input type="radio" id="suma" name="operacion" value="suma">
+            <label for="suma">Suma</label>
+        </div>
+        <div>
+            <input type="radio" id="resta" name="operacion" value="resta">
+            <label for="resta">Resta</label>
+        </div>
+        <div>
+            <input type="radio" id="multiplicacion" name="operacion" value="multiplicacion">
+            <label for="multiplicacion">Multiplicación</label>
+        </div>
+        <div>
+            <input type="radio" id="division" name="operacion" value="division">
+            <label for="division">División</label>
+        </div>
+        <input type="submit" value="calcular" />
+    </form>
+    <br>
+    <p>{}</p>
+    '''.format(numero_1 or '', numero_2 or '', resultado or '')
 
-    <div>
-      <input type="radio" id="suma" name="op" value="suma">
-      <label >Suma</label>
-    </div>
-
-    <div>
-      <input type="radio" id="dewey" name="op" value="resta">
-      <label >Resta</label>
-    </div>
-
-    <div>
-      <input type="radio" id="louie" name="op" value="multiplicacion">
-      <label >Multiplicacion</label>
-    </div>
-
-
-
-        <input type="submit" value="calcular" /> </br>
-        </form>
-
-        
-        '''
-
-if __name__=="__main__":
+if __name__ == "__main__":
     app.run(debug=True)
