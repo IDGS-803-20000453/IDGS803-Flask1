@@ -1,0 +1,59 @@
+{% extends "layoutCinepolis.html" %}
+{% block content %}
+<div class="container">
+    <!-- Sección para mostrar el mensaje de error -->
+    {% if error_message %}
+    <div class="alert alert-danger">{{ error_message }}</div>
+    {% endif %}
+</div>
+<div class="container">
+    <div class="row">
+        <h1>AREA DE BOLETAJE</h1>
+        <form class="form-horizontal" action="/valorPagar" method="POST">
+            <div class="control-group">
+                <label class="control-label" for="inputNombre">Nombre</label>
+                <div class="controls">
+                    <input type="text" name="txtNombre" placeholder="Nombre" value="" required>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="">Cantidad de compradores</label>
+                <div class="controls">
+                    <input type="number" name="txtCanComprador" placeholder="cantidad de compradores" value="" required>
+                </div>
+            </div>
+            
+
+            <div class="control-group">
+                <label class="control-label" for="">¿Pagara con tarjeta CINECO?</label>
+                <div class="controls">
+
+                <div class="radio">
+                    <label><input type="radio" name="rbtnTarBoletas"  value="si" checked>SI</label>
+                  </div>
+                  <div class="radio">
+                    <label><input type="radio" name="rbtnTarBoletas" value="no">NO</label>
+                  </div>
+                      </div>
+
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="">Cantidad de boletos</label>
+                <div class="controls">
+                    <input type="number" name="txtCanBoletas" placeholder="cantidad de boletos" value="" required>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-primary">Procesar
+                        <i class="icon-ok icon-white"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}
